@@ -3,7 +3,7 @@ from backend import start_backend
 import time
 
 # Application title
-st.markdown("""
+st.markdown(""" 
     <h1 style="color: #1f77b4;">TenX</h1> 
     <h3>The only AI productivity tool needed for VCs</h3>
     <p>Ask a question to analyze the competition.</p>
