@@ -13,14 +13,25 @@ st.markdown("""
 company_name = st.text_input("Enter the company name:", placeholder="E.g., Google")
 
 def display_competitors(competitors):
-    """Displays the list of competitors in a structured format."""
+    """Displays the list of competitors in a structured table format."""
     st.subheader("Competitors Found:")
+    
+    # Prepare data for the table
+    table_data = []
     for competitor in competitors:
-        with st.expander(competitor['name'], expanded=False):  # Create an expander for each competitor
-            st.write(f"**Accuracy:** {competitor['accuracy']}")  # Access the 'accuracy' key
-            st.write(f"**Website:** [Link]({competitor['website']})")  # Access the 'website' key
-            st.write(f"**Description:** {competitor['description']}")  # Access the 'description' key
-            st.write(f"**Headcount:** {competitor['headcount']}")  # Access the 'headcount' key
+        table_data.append({
+            "Name": competitor['name'],
+            "Accuracy": competitor['accuracy'],  # Corrected spelling from 'accouracy'
+            "Website": competitor['website'],
+            "Description": competitor['description'],
+            "Headcount": competitor['headcount']
+        })
+    
+    # Sort the table data by accuracy in descending order
+    table_data.sort(key=lambda x: x['Accuracy'], reverse=True)
+    
+    # Display the data as a table
+    st.table(table_data)  # Use st.table to display the data in a table format
 
 # Button to analyze competitors
 if st.button("Analyze Competition", key="analyze"):
