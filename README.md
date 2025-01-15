@@ -17,7 +17,7 @@
 2. `pip install -r requirements.txt`
 3. `source ./bin/activate`
 4. Add your **Harmonic** and **OpenAI** keys to the `.env` file
-4. *TODO*
+5. launch the project with `streamlit run interface.py`
 
 
 TODO: nicer install interface
