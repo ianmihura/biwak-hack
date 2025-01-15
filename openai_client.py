@@ -7,7 +7,7 @@ import os
 load_dotenv()
 
 class OpenAIClient:
-    def __init__(self, api_key: str, model: str = "gpt-3.5-turbo"):
+    def __init__(self, api_key: str, model: str = "gpt-4"):
         openai.api_key = api_key
         self.model = model
 
