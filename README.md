@@ -18,3 +18,5 @@
 3. source ./bin/activate
 4. *TODO*
 
+
+TODO: nicer install interface
