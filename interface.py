@@ -1,5 +1,4 @@
 import streamlit as st
-import random
 from backend import start_backend
 
 # Application title
