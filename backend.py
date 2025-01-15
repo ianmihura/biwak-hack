@@ -1,12 +1,8 @@
 
 
-def start_backend():
-    # TODO: get company name
-    # TODO: get company company_info
+def start_backend(company_name: str):
+    company_info = get_comapny_info(company_name)
 
-    name = "Motion Society"
-
-    company_info = get_company_desc(name)
     # TODO: set filters to company_info
     keywords = extract_keyword(company_info)
 
@@ -19,7 +15,7 @@ def start_backend():
     return result
 
 
-def get_company_desc() -> str:
+def get_comapny_info() -> str:
     pass
 
 
@@ -44,7 +40,7 @@ def run_query(company_info: dict, keywords: list[str]) -> dict:
     is_valid = validate_db(company_info, db)
 
     if is_valid:
-        return db or {}
+        return db
     else:
         return run_query(company_info, keywords)
 
