@@ -1,20 +1,22 @@
 import streamlit as st
 from backend import start_backend
+import time
 
 # Application title
 st.markdown("""
     <h1 style="color: #1f77b4;">TenX</h1> 
     <h3>The only AI productivity tool needed for VCs</h3>
-    <p>Enter a company name to analyze the competition.</p>
+    <p>Ask a question to analyze the competition.</p>
 """, unsafe_allow_html=True)
 
-# User input for company name
-company_name = st.text_input("Enter the company name:", placeholder="E.g., Google")
+# User input for the question
+question = st.text_input("Ask a question:", placeholder="E.g., Who are Google's competitors?")
+
 
 def display_competitors(competitors):
     """Displays the list of competitors in a structured table format."""
     st.subheader("Competitors Found:")
-    
+
     # Prepare data for the table
     table_data = []
     for competitor in competitors:
@@ -25,26 +27,45 @@ def display_competitors(competitors):
             "Description": competitor['description'],
             "Headcount": competitor['headcount']
         })
-    
+
     # Sort the table data by accuracy in descending order
     table_data.sort(key=lambda x: x['Accuracy'], reverse=True)
-    
+
     # Display the data as a table
     st.table(table_data)  # Use st.table to display the data in a table format
 
-# Button to analyze competitors
-if st.button("Analyze Competition", key="analyze"):
-    if company_name:
-        st.write(f"Searching for competitors for **{company_name}**...")
 
-        # Call start_backend with the company_name
-        backend_data = start_backend(company_name)  # Pass company_name as an argument
-        
+# Button to submit the question
+if st.button("Submit Question", key="submit"):
+    if question:
+        st.write(f"**TenX is thinking for query...**")
+
+        # Simulating the thinking process
+        time.sleep(2)
+
+        st.write("**Now querying Harmonic...**")
+
+        # Simulate querying Harmonic with a delay
+        time.sleep(2)
+
+        st.write("**Harmonic return to company...**")
+
+        # Simulate the response return from Harmonic with a delay
+        time.sleep(2)
+
+        st.write("**TenX is validating results...**")
+
+        # Simulate the validation process with a delay
+        time.sleep(2)
+
+        # Call start_backend with the question
+        backend_data = start_backend(question)  # Pass question as an argument
+
         if isinstance(backend_data, list):  # Check if backend_data is a list
             st.success("Competitors found!")
             display_competitors(backend_data)  # Use the backend data directly
-            
+
         else:
             st.warning("Unexpected data format received from the backend.")
     else:
-        st.warning("Please enter a company name.")
+        st.warning("Please enter a question.")
