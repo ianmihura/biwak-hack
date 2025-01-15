@@ -1,5 +1,4 @@
-# biwak-hack
-*TenX*
+# TenX
 
 ![alt text](https://i.imgur.com/O8vZHPM.png)
 
