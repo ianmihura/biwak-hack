@@ -15,5 +15,6 @@
 ### Boot project
 1. python -m venv .
 2. pip install -r requirements.txt
-3. *TODO*
+3. source ./bin/activate
+4. *TODO*
 
