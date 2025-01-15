@@ -9,20 +9,6 @@ st.markdown("""
     <p>Enter a company name to analyze the competition.</p>
 """, unsafe_allow_html=True)
 
-# Simulated function to fetch competitors
-def query_backend_simulated(company_name):
-    try:
-        # Simulates calling a backend to fetch competitors
-        # Here, we generate mock competitors based on the company name
-        competitors = [
-            f"{company_name} Competitor A",
-            f"{company_name} Competitor B",
-            f"{company_name} Competitor C"
-        ]
-        return {"competitors": competitors}
-    except Exception as e:  # Handle exceptions
-        print(f"An error occurred: {e}")
-
 # User input for company name
 company_name = st.text_input("Enter the company name:", placeholder="E.g., Google")
 
@@ -31,7 +17,7 @@ def display_competitors(competitors):
     st.subheader("Competitors Found:")
     for competitor in competitors:
         with st.expander(competitor['name'], expanded=False):  # Create an expander for each competitor
-            st.write(f"**Accuracy:** {competitor['accouracy']}")  # Access the 'accuracy' key
+            st.write(f"**Accuracy:** {competitor['accuracy']}")  # Access the 'accuracy' key
             st.write(f"**Website:** [Link]({competitor['website']})")  # Access the 'website' key
             st.write(f"**Description:** {competitor['description']}")  # Access the 'description' key
             st.write(f"**Headcount:** {competitor['headcount']}")  # Access the 'headcount' key

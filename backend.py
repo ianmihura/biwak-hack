@@ -4,29 +4,7 @@
 # funding
 # external_description
 
-mock = [
-    {
-        "name": "Competitor A",
-        "accouracy": "0.8",
-        "website": "example.com",
-        "description": "asdfasdfasdf",
-        "headcount": 0,
-    },
-    {
-        "name": "Competitor B",
-        "accouracy": "0.55",
-        "website": "example.com",
-        "description": "asdfasdfasdf",
-        "headcount": 0,
-    },
-    {
-        "name": "Competitor C",
-        "accouracy": "0.67",
-        "website": "example.com",
-        "description": "asdfasdfasdf",
-        "headcount": 0,
-    },
-]
+from mock import mock
 
 
 def start_backend(company_name: str) -> dict:
@@ -56,7 +34,7 @@ def validate_keywords(keywords: list[str]) -> bool:
 
 
 def run_query(company_info: dict, keywords: list[str]) -> dict:
-    # Mayb be recursively called
+    # Can be recursively called
     queries = generate_queries(company_info, keywords)
     db = {}
 
@@ -67,7 +45,7 @@ def run_query(company_info: dict, keywords: list[str]) -> dict:
 
     is_valid = validate_db(company_info, db)
 
-    if is_valid or True:
+    if is_valid:
         return db
     else:
         return run_query(company_info, keywords)
@@ -88,6 +66,7 @@ def aggr_query_results(db: dict, result: dict) -> dict:
 
 
 def validate_db(company_info: dict, db: dict) -> bool:
+
     # HARD
     # filter with company_info.filters
-    pass
+    return True
