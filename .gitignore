@@ -5,3 +5,4 @@
 /share
 /include
 /__pycache__
+.env
