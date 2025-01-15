@@ -4,3 +4,4 @@
 /etc
 /share
 /include
+/__pycache__
