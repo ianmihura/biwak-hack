@@ -32,4 +32,4 @@ if __name__ == "__main__":
         else:
             print("Failed to fetch company information.")
 
-        asyncio.run(main())
+    asyncio.run(main())
