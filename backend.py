@@ -14,7 +14,7 @@ mock = [
 ]
 
 def start_backend(company_name: str) -> dict:
-    company_info = get_comapny_info(company_name)
+    company_info = get_company_info(company_name)
 
     # TODO: set filters to company_info
     keywords = extract_keyword(company_info)
@@ -27,7 +27,7 @@ def start_backend(company_name: str) -> dict:
     return result or mock
 
 
-def get_comapny_info() -> str:
+def get_company_info(company_name: str) -> str:
     pass
 
 
@@ -51,7 +51,7 @@ def run_query(company_info: dict, keywords: list[str]) -> dict:
 
     is_valid = validate_db(company_info, db)
 
-    if is_valid:
+    if is_valid or True:
         return db
     else:
         return run_query(company_info, keywords)
@@ -60,7 +60,7 @@ def run_query(company_info: dict, keywords: list[str]) -> dict:
 def generate_queries(company_info: dict, keywords: list[str]) -> list[str]:
     # TODO validate queries with company_info
     # KINDA HARD - we can mock
-    pass
+    return []
 
 
 def call_query(query: str) -> dict:
