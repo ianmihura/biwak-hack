@@ -13,9 +13,10 @@
 *TODO*
 
 ### Boot project
-1. python -m venv .
-2. pip install -r requirements.txt
-3. source ./bin/activate
+1. `python -m venv .`
+2. `pip install -r requirements.txt`
+3. `source ./bin/activate`
+4. Add your **Harmonic** and **OpenAI** keys to the `.env` file
 4. *TODO*
 
 

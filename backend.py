@@ -13,6 +13,7 @@ mock = [
     },
 ]
 
+
 def start_backend(company_name: str) -> dict:
     company_info = get_company_info(company_name)
 
