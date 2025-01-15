@@ -1,5 +1,6 @@
 import streamlit as st
 import random
+from backend import start_backend
 
 # Application title
 st.markdown("""
@@ -22,11 +23,6 @@ def query_backend_simulated(company_name):
     except Exception as e:  # Handle exceptions
         print(f"An error occurred: {e}")
 
-# Simulated backend status check
-def check_backend_status():
-    # Simulate backend status check (random condition here)
-    return random.choice([True, False])  # Randomly returns True or False for testing
-
 # User input for company name
 company_name = st.text_input("Enter the company name:", placeholder="E.g., Google")
 
@@ -34,30 +30,21 @@ def display_competitors(competitors):
     """Displays the list of competitors in a structured format."""
     st.subheader("Competitors Found:")
     for competitor in competitors:
-        st.write(f"- {competitor}")
+        st.write(f"- {competitor['name']}")  # Access the 'name' key from each dictionary
 
 # Button to analyze competitors
 if st.button("Analyze Competition", key="analyze"):
     if company_name:
         st.write(f"Searching for competitors for **{company_name}**...")
 
-        # Check if the backend is operational (simulated here)
-        if check_backend_status():
-            data = query_backend_simulated(company_name)
-
-            if "error" in data:
-                st.warning(data["error"])  # Display an error message if the API fails
-            else:
-                st.success("Competitors found!")
-                display_competitors(data["competitors"])  # Use the new function to display competitors
+        # Call start_backend with the company_name
+        backend_data = start_backend(company_name)  # Pass company_name as an argument
+        
+        if isinstance(backend_data, list):  # Check if backend_data is a list
+            st.success("Competitors found!")
+            display_competitors(backend_data)  # Use the backend data directly
+            
         else:
-            st.warning("The backend is currently unavailable. Displaying simulated data.")
-            display_competitors(["Microsoft", "Amazon", "Apple"])  # Use the new function
+            st.warning("Unexpected data format received from the backend.")
     else:
         st.warning("Please enter a company name.")
-
-# Option to view competitor details
-if company_name:
-    with st.expander("View Competitor Details"):
-        st.write("Additional details about competitors here...")
-        # You can add links, charts, etc.
