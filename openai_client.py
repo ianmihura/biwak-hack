@@ -6,6 +6,7 @@ import os
 
 load_dotenv()
 
+
 class OpenAIClient:
     def __init__(self, model: str = "gpt-4"):
         OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -47,21 +48,31 @@ async def get_company_key_words(company_name: str, company_domain: str, company_
     return res
 
 
-async def validate_db_with_openai(company_info: dict, db: dict):
+def get_entry_description(entry: dict):
+    return ""
+
+
+async def validate_db_with_openai(company_info: dict, db: list) -> dict:
     client = OpenAIClient()
 
-    system_prompt = """
-    """
-    user_prompt = f"""
-    Company Info: {company_info}
-    """
-    inputs = [
-        {"role": "system", "content": system_prompt},
-        {"role": "user", "content": user_prompt}
-    ]
-    res = client.query_chat(inputs)
-    print(res)
-    return res
+    for entry in db:
+        # TODO instead of OpenAI (LLM) use vector search
+
+        # TODO make a better prompt
+        system_prompt = f"""
+        How accurate is this a description of the company: {company_info}.
+        Give the result in float, from 0 to 1.
+        """
+        user_prompt = get_entry_description(entry)
+        inputs = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ]
+        res = client.query_chat(inputs)
+        print(res)
+        entry["accuracy"] = res
+
+    return db
 
 
 if __name__ == "__main__":
