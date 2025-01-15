@@ -50,17 +50,34 @@ async def get_companies_info_by_ids(ids, api_key):
             print(f"Error getting company data: {e}")
             return None
 
+async def get_similar_sites(id, api_key, size=10):
+    url = f"https://api.harmonic.ai/search/similar_companies/{id}?size={size}"
+    headers = {'apikey': api_key}
+
+    async with aiohttp.ClientSession() as session:
+        try:
+            async with session.get(url, headers=headers) as response:
+                response.raise_for_status()
+                return await response.json()
+
+        except aiohttp.ClientError as e:
+            print(f"Error fetching similar companies: {e}")
+            return None
+
 
 if __name__ == "__main__":
     async def main():
         website_domain = "atomico.com"  # Replace with the actual website domain
         api_key = os.getenv("HARMONIC_API_KEY")
-        ids = [3639957, 2261160]
-        companies = await get_companies_info_by_ids(ids, api_key)
+        id = 2261160
 
-        if companies:
-            for company in companies:
-                headcount = company.get('headcount', 0)
-                print(f"Company {company['id']} has {headcount} employees.")
+        similar_companies_data = await get_similar_sites(id, api_key)
+
+        if similar_companies_data:
+            print("Similar Companies:")
+            for urn in similar_companies_data.get('results', []):
+                print(urn)
+        else:
+            print("No similar companies data found.")
 
     asyncio.run(main())
