@@ -1,4 +1,3 @@
-
 mock = [
     {
         "name": "Competitor A",

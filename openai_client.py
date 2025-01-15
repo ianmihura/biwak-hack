@@ -1,5 +1,6 @@
-import asyncio
+from functools import reduce
 import openai
+import api_config
 
 from dotenv import load_dotenv
 import os
@@ -13,6 +14,7 @@ class OpenAIClient:
         openai.api_key = OPENAI_API_KEY
         self.model = model
 
+
     def query_chat(self, messages: list, max_tokens: int = 150, temperature: float = 0.7):
         try:
             completion = openai.ChatCompletion.create(
@@ -25,6 +27,7 @@ class OpenAIClient:
             return completion["choices"][0]["message"]["content"].strip()
         except Exception as e:
             return f"An error occurred: {e}"
+
 
     async def get_company_key_words(self, company_name: str, company_domain: str, company_description: str):
         system_prompt = """
@@ -45,43 +48,16 @@ class OpenAIClient:
         return res
 
 
-def get_entry_description(entry: dict):
-    return ""
-
-
-async def validate_db_with_openai(company_info: str, db: list) -> dict:
-    client = OpenAIClient()
-
-    for entry in db:
-        # TODO instead of OpenAI (LLM) use vector search
-
+    async def get_url_with_openai(self, user_input: str) -> str:
+        endpoints_descriptions = reduce(lambda x: ": " + x["description"], api_config.config)
         system_prompt = f"""
-        You are a vector search comparator. You need to compare the following 
-        company description: "{company_info}" with any string the user propmts.
-        Give the answer in a normalized accuracy from 0 to 1.
+        You have to choose an endpoint to answer to the user input.
+        The list of endpoints are: {endpoints_descriptions}
         """
-        user_prompt = get_entry_description(entry)
         inputs = [
             {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt}
+            {"role": "user", "content": user_input}
         ]
-        res = client.query_chat(inputs)
+        res = self.query_chat(inputs)
         print(res)
-        entry["accuracy"] = res
-
-    return db
-
-
-if __name__ == "__main__":
-
-    async def main():
-
-        company_name = "Motion Society"
-        domain = "motionsociety.com"
-        description = "Motion Society helps content creators reaching their full potential and develops their brands in all social medias. Motion Society currently brings together a diversified and strong community of creators spanning from a lot of different worlds. Our team is fully dedicated to make them blossom on Facebook, Instagram, Snapchat, TikTok, Pinterest and YouTube."
-        key_words = await get_company_key_words(company_name, domain, description)
-
-        # Query the client
-        print(key_words)
-
-    asyncio.run(main())
+        return res
