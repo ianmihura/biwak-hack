@@ -58,10 +58,10 @@ async def validate_db_with_openai(company_info: dict, db: list) -> dict:
     for entry in db:
         # TODO instead of OpenAI (LLM) use vector search
 
-        # TODO make a better prompt
         system_prompt = f"""
-        How accurate is this a description of the company: {company_info}.
-        Give the result in float, from 0 to 1.
+        You are a vector search comparator. You need to compare the following 
+        company description: "{company_info}" with any string the user propmts.
+        Give the answer in a normalized accuracy from 0 to 1.
         """
         user_prompt = get_entry_description(entry)
         inputs = [
