@@ -30,7 +30,11 @@ def display_competitors(competitors):
     """Displays the list of competitors in a structured format."""
     st.subheader("Competitors Found:")
     for competitor in competitors:
-        st.write(f"- {competitor['name']}")  # Access the 'name' key from each dictionary
+        with st.expander(competitor['name'], expanded=False):  # Create an expander for each competitor
+            st.write(f"**Accuracy:** {competitor['accouracy']}")  # Access the 'accuracy' key
+            st.write(f"**Website:** [Link]({competitor['website']})")  # Access the 'website' key
+            st.write(f"**Description:** {competitor['description']}")  # Access the 'description' key
+            st.write(f"**Headcount:** {competitor['headcount']}")  # Access the 'headcount' key
 
 # Button to analyze competitors
 if st.button("Analyze Competition", key="analyze"):
