@@ -1,65 +1,61 @@
 import streamlit as st
 import random
 
-# Titre de l'application
+# Application title
 st.markdown("""
-    <h1 style="color: #1f77b4;">TenX</h1> <h3>your AI prodectivity tool</h3>
+    <h1 style="color: #1f77b4;">TenX</h1> <h3>The only AI productivity tool needed for VCs</h3>
 """, unsafe_allow_html=True)
-st.subheader("Trouvez les concurrents d'une entreprise en utilisant l'IA et des API.")
 
-
-# Fonction simulée pour récupérer les concurrents
+# Simulated function to fetch competitors
 def query_backend_simulated(company_name):
     try:
-        # Simule l'appel à un back-end pour obtenir des concurrents
-        # Ici, on génère des concurrents factices basés sur le nom de l'entreprise
+        # Simulates calling a backend to fetch competitors
+        # Here, we generate mock competitors based on the company name
         competitors = [
-            f"{company_name} Concurrent A",
-            f"{company_name} Concurrent B",
-            f"{company_name} Concurrent C"
+            f"{company_name} Competitor A",
+            f"{company_name} Competitor B",
+            f"{company_name} Competitor C"
         ]
         return {"competitors": competitors}
     except Exception as e:
-        # En cas d'erreur, retourner un message d'erreur
-        return {"error": f"Erreur lors de la récupération des concurrents : {str(e)}"}
+        # Return an error message in case of an exception
+        return {"error": f"Error fetching competitors: {str(e)}"}
 
-
-# Vérification du statut du back-end (simulée ici)
+# Simulated backend status check
 def check_backend_status():
-    # Simuler une vérification d'état du back-end (ici, une condition aléatoire)
-    return random.choice([True, False])  # True ou False de manière aléatoire pour tester
+    # Simulate backend status check (random condition here)
+    return random.choice([True, False])  # Randomly returns True or False for testing
 
+# User input for company name
+company_name = st.text_input("Enter your instruction:", placeholder="E.g., Google")
 
-# Entrée utilisateur pour le nom de l'entreprise
-company_name = st.text_input("Entrez le nom de l'entreprise :", placeholder="Exemple : Google")
-
-# Bouton pour analyser les concurrents
-if st.button("Analyser les concurrents"):
+# Button to analyze competitors
+if st.button("Run"):
     if company_name:
-        st.write(f"Recherche des concurrents pour **{company_name}**...")
+        st.write(f"Searching for competitors for **{company_name}**...")
 
-        # Vérifier si le back-end est opérationnel (en simulant ici)
+        # Check if the backend is operational (simulated here)
         if check_backend_status():
-            # Simuler l'appel au back-end pour obtenir les concurrents
+            # Simulate calling the backend to fetch competitors
             data = query_backend_simulated(company_name)
 
             if "error" in data:
-                st.warning(data["error"])  # Afficher le message d'erreur si l'API échoue
+                st.warning(data["error"])  # Display an error message if the API fails
             else:
-                st.success("Concurrents trouvés !")
+                st.success("Competitors found!")
                 for competitor in data["competitors"]:
                     st.write(f"- {competitor}")
         else:
-            st.warning("Le back-end est actuellement hors service. Affichage de données simulées.")
-            # Afficher des données simulées si le back-end est hors service
-            st.write("- Concurrent 1 : Microsoft")
-            st.write("- Concurrent 2 : Amazon")
-            st.write("- Concurrent 3 : Apple")
+            st.warning("The backend is currently unavailable. Displaying simulated data.")
+            # Display simulated data if the backend is unavailable
+            st.write("- Competitor 1: Microsoft")
+            st.write("- Competitor 2: Amazon")
+            st.write("- Competitor 3: Apple")
     else:
-        st.warning("Veuillez entrer le nom d'une entreprise.")
+        st.warning("Please enter a company name.")
 
-# Option pour voir les détails d'un concurrent
+# Option to view competitor details
 if company_name:
-    with st.expander("Voir les détails des concurrents"):
-        st.write("Détails supplémentaires sur les concurrents ici...")
-        # Vous pouvez ajouter des liens, graphiques, etc.
+    with st.expander("View Competitor Details"):
+        st.write("Additional details about competitors here...")
+        # You can add links, charts, etc.
