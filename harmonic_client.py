@@ -1,5 +1,9 @@
 import asyncio
 import aiohttp
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 
 async def get_company_info_by_domain(website_domain, api_key):
@@ -19,7 +23,7 @@ async def get_company_info_by_domain(website_domain, api_key):
 if __name__ == "__main__":
     async def main():
         website_domain = "atomico.com"  # Replace with the actual website domain
-        api_key = "vF0yJYxvL6DwG9y0nUDXDXei7uGuKsz5"  # Replace with your actual API key
+        api_key = os.getenv("HARMONIC_API_KEY")
         company_info = await get_company_info_by_domain(website_domain, api_key)
 
         if company_info:

@@ -1,5 +1,9 @@
 from openai import OpenAI
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 class OpenAIClient:
     def __init__(self, api_key: str, model: str = "gpt-4"):
@@ -20,8 +24,8 @@ class OpenAIClient:
 
 
 if __name__ == "__main__":
-    API_KEY = "oIFYr6dvblfyiLBWRypP+n9ENfeY8LHKNwrYw+dLBQg="
-    client = OpenAIClient(api_key=API_KEY)
+    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+    client = OpenAIClient(api_key=OPENAI_API_KEY)
 
     # Sample messages
     messages = [

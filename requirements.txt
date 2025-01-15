@@ -4,3 +4,4 @@ pandas
 aiohttp
 asyncio
 openai
+python-dotenv
