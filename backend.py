@@ -1,3 +1,17 @@
+mock = [
+    {
+        "name": "Competitor A",
+        "other_kpi": "",
+    },
+    {
+        "name": "Competitor B",
+        "other_kpi": "",
+    },
+    {
+        "name": "Competitor C",
+        "other_kpi": "",
+    },
+]
 
 def start_backend(company_name: str) -> dict:
     company_info = get_comapny_info(company_name)
@@ -10,12 +24,6 @@ def start_backend(company_name: str) -> dict:
         pass
 
     result = run_query(company_info, keywords)  # and validate
-
-    mock = [
-        f"{company_name} Competitor A",
-        f"{company_name} Competitor B",
-        f"{company_name} Competitor C"
-    ]
     return result or mock
 
 
