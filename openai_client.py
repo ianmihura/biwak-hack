@@ -26,26 +26,23 @@ class OpenAIClient:
         except Exception as e:
             return f"An error occurred: {e}"
 
-
-async def get_company_key_words(company_name: str, company_domain: str, company_description: str):
-    client = OpenAIClient()
-
-    system_prompt = """
-    You are a VC analyst trying to find direct competitors for a provided company, in their niche area. \n
-    You will be given a company's domain, name and description. Please return 4 key words that can be used to identify 
-    the niche specialty of the company. Return the results in an array of strings.
-    """
-    user_prompt = f"""
-    Company: "{company_name}" \n
-    Domain: "{company_domain}" \n
-    Description: "{company_description}" """
-    inputs = [
-        {"role": "system", "content": system_prompt},
-        {"role": "user", "content": user_prompt}
-    ]
-    res = client.query_chat(inputs)
-    print(res)
-    return res
+    async def get_company_key_words(self, company_name: str, company_domain: str, company_description: str):
+        system_prompt = """
+        You are a VC analyst trying to find direct competitors for a provided company, in their niche area. \n
+        You will be given a company's domain, name and description. Please return 4 key words that can be used to identify 
+        the niche specialty of the company. Return the results in an array of strings.
+        """
+        user_prompt = f"""
+        Company: "{company_name}" \n
+        Domain: "{company_domain}" \n
+        Description: "{company_description}" """
+        inputs = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ]
+        res = self.query_chat(inputs)
+        print(res)
+        return res
 
 
 def get_entry_description(entry: dict):

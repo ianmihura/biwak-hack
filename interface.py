@@ -1,4 +1,7 @@
+import asyncio
+
 import streamlit as st
+import random
 from backend import start_backend
 
 # Application title
@@ -38,7 +41,7 @@ if st.button("Analyze Competition", key="analyze"):
         st.write(f"Searching for competitors for **{company_name}**...")
 
         # Call start_backend with the company_name
-        backend_data = start_backend(company_name)  # Pass company_name as an argument
+        backend_data= asyncio.run(start_backend(company_name)) # Pass company_name as an argument
         
         if isinstance(backend_data, list):  # Check if backend_data is a list
             st.success("Competitors found!")

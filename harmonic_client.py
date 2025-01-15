@@ -1,37 +1,48 @@
 import asyncio
+from typing import Optional
+
 import aiohttp
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
+COMPANY_FIELDS = ["name", "description", "headcount", "logo_url", "customer_type", "stage", "id", "tags_v2", "funding"]
 
-async def get_company_info_by_domain(website_domain, api_key):
-    url = f"https://api.harmonic.ai/companies?website_domain={website_domain}"
-    headers = {'apikey': api_key}
+class HarmonicClient:
+    def __init__(self, api_key):
+        self.api_key = api_key
 
-    async with aiohttp.ClientSession() as session:
-        try:
-            async with session.post(url, headers=headers) as response:
-                response.raise_for_status()  # Raise an exception for bad responses (4xx or 5xx)
-                return await response.json()
-        except aiohttp.ClientError as e:
-            print(f"Error getting company description: {e}")
-            return None
+    async def get_company_info_by_domain(self, website_domain) -> Optional[dict]:
+        # Theoretically, this URL needs to be produced by LLM
+        url = f"https://api.harmonic.ai/companies?website_domain={website_domain}"
+        headers = {'apikey': self.api_key}
 
-async def get_companies_by_key_words(api_key, key_words: list[str]):
-    url = f"https://api.harmonic.ai/search/companies_by_keywords"
-    headers = {'apikey': api_key}
-    body = {"contains_any_of_keywords": ",".join(key_words), "include_ids_only": False}
+        async with aiohttp.ClientSession() as session:
+            try:
+                async with session.post(url, headers=headers) as response:
+                    response.raise_for_status()  # Raise an exception for bad responses (4xx or 5xx)
+                    company_obj = await response.json()
+                    filtered_obj = {field: company_obj[field] for field in COMPANY_FIELDS if field in company_obj}
+                    return filtered_obj
+            except aiohttp.ClientError as e:
+                print(f"Error getting company description: {e}")
+                return None
 
-    async with aiohttp.ClientSession() as session:
-        try:
-            async with session.post(url, headers=headers, json=body) as response:
-                response.raise_for_status()  # Raise an exception for bad responses (4xx or 5xx)
-                return await response.json()
-        except aiohttp.ClientError as e:
-            print(f"Error getting company description: {e}")
-            return None
+    async def get_companies_by_key_words(self, key_words: list[str]):
+        # Theoretically, this URL needs to be produced by LLM
+        url = f"https://api.harmonic.ai/search/companies_by_keywords"
+        headers = {'apikey': self.api_key}
+        body = {"contains_any_of_keywords": ",".join(key_words), "include_ids_only": False}
+
+        async with aiohttp.ClientSession() as session:
+            try:
+                async with session.post(url, headers=headers, json=body) as response:
+                    response.raise_for_status()  # Raise an exception for bad responses (4xx or 5xx)
+                    return await response.json()
+            except aiohttp.ClientError as e:
+                print(f"Error getting company description: {e}")
+                return None
 
 
 async def get_companies_info_by_ids(ids, api_key):
