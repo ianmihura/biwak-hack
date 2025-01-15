@@ -50,22 +50,6 @@ async def get_companies_info_by_ids(ids, api_key):
             print(f"Error getting company data: {e}")
             return None
 
-async def get_companies_info_by_ids(ids, api_key):
-    url = "https://api.harmonic.ai/companies/batchGet"
-    body = {
-        "ids": ids
-    }
-    headers = {'apikey': api_key}
-
-    async with aiohttp.ClientSession() as session:
-        try:
-            async with session.post(url, json=body, headers=headers) as response:
-                response.raise_for_status()
-                return await response.json()
-        except aiohttp.ClientError as e:
-            print(f"Error getting company data: {e}")
-            return None
-
 
 if __name__ == "__main__":
     async def main():
