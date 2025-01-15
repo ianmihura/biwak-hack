@@ -52,7 +52,7 @@ def get_entry_description(entry: dict):
     return ""
 
 
-async def validate_db_with_openai(company_info: dict, db: list) -> dict:
+async def validate_db_with_openai(company_info: str, db: list) -> dict:
     client = OpenAIClient()
 
     for entry in db:

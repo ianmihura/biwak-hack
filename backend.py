@@ -4,6 +4,12 @@
 # funding
 # external_description
 
+# customer_type
+# tags_v2
+# location
+# headcount
+# funding
+
 from mock import mock
 
 
