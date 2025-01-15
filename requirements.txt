@@ -1,4 +1,6 @@
 streamlit
 numpy
 pandas
+aiohttp
+asyncio
 openai
