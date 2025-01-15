@@ -5,6 +5,7 @@
 # external_description
 import os
 
+from executors.BossExecutor import BossExecutor
 # customer_type
 # tags_v2
 # location
@@ -16,33 +17,13 @@ from mock import mock
 from openai_client import OpenAIClient
 
 
-async def start_backend(company_domain: str) -> dict:
-    harmonic_client = HarmonicClient(os.getenv("HARMONIC_API_KEY"))
-    openai_client = OpenAIClient()
-
-    # This will be the blue-print for the final implementation. For now, we are mocking the generated query.
-    possible_client, possible_query = openai_client.generate_queries("Find competitors for company with domain: " + company_domain)
-    possible_client = "Harmonic"
-    if possible_client == "Harmonic":
-        answers = await harmonic_client.run_query(possible_query)
-        if answers:
-            return answers
-        else
-
-    target_company_dict = await harmonic_client.get_company_info_by_domain(company_domain)
-    description = target_company_dict.get("description")
-
-    # TODO: set filters to company_info
-    keywords = openai_client.query_chat()
-    # keywords = extract_keyword(description)
-
-    if validate_keywords(keywords):
-        # manually validated by user
-        pass
-
-    result = run_query(company_info, keywords)  # and validate
-    return result or mock
-
+async def start_backend(question: str) -> dict:
+    # This is a mock question
+    question = "Find competitors for company Career26.com"
+    boss_executor = BossExecutor()
+    executions = boss_executor.generate_executions(question)
+    final_result = boss_executor.execute_steps_with_chaining(executions)
+    return final_result
 
 def get_company_info(company_domain: str) -> str:
     pass
