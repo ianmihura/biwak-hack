@@ -1,15 +1,30 @@
+# highlights.category, highlights.text
+# location.location
+# tags[..].display_value || tags_v2[..].display_value
+# funding
+# external_description
+
 mock = [
     {
         "name": "Competitor A",
-        "other_kpi": "",
+        "accouracy": "0.8",
+        "website": "example.com",
+        "description": "asdfasdfasdf",
+        "headcount": 0,
     },
     {
         "name": "Competitor B",
-        "other_kpi": "",
+        "accouracy": "0.55",
+        "website": "example.com",
+        "description": "asdfasdfasdf",
+        "headcount": 0,
     },
     {
         "name": "Competitor C",
-        "other_kpi": "",
+        "accouracy": "0.67",
+        "website": "example.com",
+        "description": "asdfasdfasdf",
+        "headcount": 0,
     },
 ]
 
