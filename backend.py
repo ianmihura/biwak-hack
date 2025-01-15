@@ -44,7 +44,7 @@ def run_query(company_info: dict, keywords: list[str]) -> dict:
     is_valid = validate_db(company_info, db)
 
     if is_valid:
-        return db
+        return db or {}
     else:
         return run_query(company_info, keywords)
 
