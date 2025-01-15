@@ -36,9 +36,9 @@ def run_query(description: str, keywords: list[str]) -> dict:
 
     for query in queries:
         result = call_query(query)
-        shortlist()
+        # maybe validate at this step?
         db = aggr_query_results(db, result)
-    
+
     is_valid = validate_db(db)
 
     if is_valid:
@@ -57,14 +57,13 @@ def call_query(query: str) -> dict:
 
 
 def aggr_query_results(db: dict, result: dict) -> dict:
-    # using global full_db
     pass
 
 
-def shortlist():
+def validate_db(db: dict) -> bool:
     pass
 
 
 if __name__ == "__main__":
-    main()
-    
+    result = main()
+    print(result)
