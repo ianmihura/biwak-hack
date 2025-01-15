@@ -1,6 +1,5 @@
 
-
-def start_backend(company_name: str):
+def start_backend(company_name: str) -> dict:
     company_info = get_comapny_info(company_name)
 
     # TODO: set filters to company_info
@@ -12,7 +11,12 @@ def start_backend(company_name: str):
 
     result = run_query(company_info, keywords)  # and validate
 
-    return result
+    mock = [
+        f"{company_name} Competitor A",
+        f"{company_name} Competitor B",
+        f"{company_name} Competitor C"
+    ]
+    return result or mock
 
 
 def get_comapny_info() -> str:
