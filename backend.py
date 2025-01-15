@@ -3,6 +3,7 @@
 # tags[..].display_value || tags_v2[..].display_value
 # funding
 # external_description
+import os
 
 # customer_type
 # tags_v2
@@ -10,14 +11,30 @@
 # headcount
 # funding
 
+from harmonic_client import HarmonicClient
 from mock import mock
+from openai_client import OpenAIClient
 
 
-def start_backend(company_name: str) -> dict:
-    company_info = get_company_info(company_name)
+async def start_backend(company_domain: str) -> dict:
+    harmonic_client = HarmonicClient(os.getenv("HARMONIC_API_KEY"))
+    openai_client = OpenAIClient()
+
+    # This will be the blue-print for the final implementation. For now, we are mocking the generated query.
+    possible_client, possible_query = openai_client.generate_queries("Find competitors for company with domain: " + company_domain)
+    possible_client = "Harmonic"
+    if possible_client == "Harmonic":
+        answers = await harmonic_client.run_query(possible_query)
+        if answers:
+            return answers
+        else
+
+    target_company_dict = await harmonic_client.get_company_info_by_domain(company_domain)
+    description = target_company_dict.get("description")
 
     # TODO: set filters to company_info
-    keywords = extract_keyword(company_info)
+    keywords = openai_client.query_chat()
+    # keywords = extract_keyword(description)
 
     if validate_keywords(keywords):
         # manually validated by user
@@ -27,7 +44,7 @@ def start_backend(company_name: str) -> dict:
     return result or mock
 
 
-def get_company_info(company_name: str) -> str:
+def get_company_info(company_domain: str) -> str:
     pass
 
 
