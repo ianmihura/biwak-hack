@@ -1,6 +1,6 @@
 
 
-def main():
+def start_backend():
     # TODO: get company name
     # TODO: get company company_info
 
@@ -67,8 +67,3 @@ def validate_db(company_info: dict, db: dict) -> bool:
     # HARD
     # filter with company_info.filters
     pass
-
-
-if __name__ == "__main__":
-    result = main()
-    print(result)
