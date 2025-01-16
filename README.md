@@ -26,9 +26,20 @@ the relevant SQL, API, GraphQL or other queries.
 The demo is using [Harmonize api](https://console.harmonic.ai/docs/api-reference/fetch) 
 as a dataset example.
 
----
+## Modular APIs
 
-### Demo explanation
+*We only support Harmonic and OpenAI API for now.*
+
+To integrate your own data provider APIs, you must:
+1. Include the secrets to the .env file
+2. Add the name of the endpoint to `api_config.py`
+3. Provide a list of callable endpoints, or a Swagger spec
+
+**For SQL queries**
+
+*We still don't support SQL queries*
+
+## Demo explanation
 
 We created a mock of how the backend will work, the file is `main.py`.
 We perform a query search for competitors of a specified domain using various client APIs.
@@ -46,7 +57,10 @@ The main function processes user input to find similar companies for a given com
 ### Boss Executor
 
 #### Overview
-The `BossExecutor` class orchestrates the execution of tasks using various executors, such as SQL and API calls. It integrates with the `HarmonicClient` and `OpenAIClient` to generate and execute steps based on user queries and dependencies. This class is particularly useful for handling complex workflows that involve stepwise execution with dependencies.
+The `BossExecutor` class orchestrates the execution of tasks using various executors, such as SQL and API calls. For now we are only implementing `HarmonicClient` and `OpenAIClient` to generate and execute steps based on user queries. This class is particularly useful for handling workflows that involve stepwise execution.
+
+#### Improvements
+We still have to integrate more API clients, and plug the Executors to the frontend
 
 ---
 
@@ -134,26 +148,3 @@ Executes a generic task based on the provided task description and dependency da
   - `client` (*OpenAIClient*): Client for task execution.
 - **Returns:**
   - Result of the executed task.
-
----
-
-#### Notes
-- **Enhancements:**
-  - LLM validator can be added to ensure API calls are well-formed. 
-  - The orchestrator should retrieve results from the previously executed step to dynamically update and execute subsequent steps.
-
-
-
-## Modular APIs
-
-*We only support Harmonic API for now.*
-
-To integrate your own data provider APIs, you must:
-1. Include the secrets to the .env file
-2. Add the name of the endpoint to `api_config.py`
-3. Provide a list of callable endpoints, or a Swagger spec
-
-**For SQL queries**
-
-*We still don't support SQL queries*
-
