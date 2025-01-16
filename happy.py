@@ -34,26 +34,31 @@ async def main(user_input = "Get me the competitors of motionsociety.com") -> di
     The first company description is: {user_input}. {company_info}.
     """
 
+    final_companies = []
     for entry in similar_companies:
-        entrty = {field: entry[field] for field in COMPANY_FIELDS if field in entry}
+        filtered_entry = {field: entry[field] for field in COMPANY_FIELDS if field in entry}
+        filtered_entry["tags_v2"] = reduce(lambda a, v: a + [v["display_value"]], filtered_entry["tags_v2"], [])
+        filtered_entry["funding"] = filtered_entry["funding"]["funding_stage"]
+        # filtered_entry["investors"] = reduce(lambda a, v: a+[v["name"]], filtered_entry["funding"]["investors"], [])
         inputs = [
             {"role": "system", "content": system_prompt},
-            {"role": "user", "content": str(entrty)}
+            {"role": "user", "content": str(filtered_entry)}
         ]
         res = client.query_chat(inputs)
 
         # hallucination: sometimes the AI will give you more info than you asked for
         if len(res) > 5:
             # TODO: maybe the user wants this always?
-            entry["accuracy_descr"] = res
+            filtered_entry["accuracy_descr"] = res
             res = re.findall("\d+\.\d+", res)
-            entry["accuracy"] = res
+            filtered_entry["accuracy"] = res
         else:
-            entry["accuracy"] = res
+            filtered_entry["accuracy"] = res
+        
+        final_companies.append(filtered_entry)
 
-    print(similar_companies)
-    
-    return similar_companies
+    print(final_companies)
+    return final_companies
 
 if __name__ == "__main__":
     asyncio.run(main())
