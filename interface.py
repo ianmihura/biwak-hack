@@ -38,6 +38,10 @@ def display_competitors(competitors):
     # Sort the table data by accuracy in descending order
     # table_data.sort(key=lambda x: x['accuracy'], reverse=True)
 
+    # Display the data as a table
+    st.table(table_data)  # Use st.table to display the data in a table format
+
+
 
 
 # Button to submit the question
@@ -59,9 +63,6 @@ if st.button("Submit Question", key="submit"):
         time.sleep(2)
 
         st.write("**TenX is validating results...**")
-
-        # Simulate the validation process with a delay
-        time.sleep(2)
 
         # Call start_backend with the company_name
         backend_data= asyncio.run(backend(question)) # Pass company_name as an argument

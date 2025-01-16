@@ -35,10 +35,10 @@ async def main(user_input = "Get me the competitors of motionsociety.com") -> di
     """
 
     for entry in similar_companies:
-        filtered_entry = {field: entry[field] for field in COMPANY_FIELDS if field in entry}
+        entrty = {field: entry[field] for field in COMPANY_FIELDS if field in entry}
         inputs = [
             {"role": "system", "content": system_prompt},
-            {"role": "user", "content": str(filtered_entry)}
+            {"role": "user", "content": str(entrty)}
         ]
         res = client.query_chat(inputs)
 
@@ -52,6 +52,7 @@ async def main(user_input = "Get me the competitors of motionsociety.com") -> di
             entry["accuracy"] = res
 
     print(similar_companies)
+    
     return similar_companies
 
 if __name__ == "__main__":
