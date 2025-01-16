@@ -1,7 +1,8 @@
 import streamlit as st
 import asyncio
 import time
-from main import execute_queries, main as backend, validate_response
+from main import execute_queries
+from main import validate_response
 from main import enrich_user_query
 
 
