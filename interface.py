@@ -1,7 +1,7 @@
 import streamlit as st
 import asyncio
 import time
-from happy import main as backend
+from main import main as backend
 
 
 def humanize(s: str) -> str:

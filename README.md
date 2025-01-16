@@ -4,6 +4,13 @@
 
 > This project was built as part of the Data-Driven VC Hackathon organized by [Red River West](https://redriverwest.com) & [Bivwak! by BNP Paribas](https://bivwak.bnpparibas/)
 
+## Boot project
+1. `python -m venv .`
+2. `pip install -r requirements.txt`
+3. `source ./bin/activate`
+4. Add your **Harmonic** and **OpenAI** keys to the `.env` file
+5. Launch the project with `streamlit run interface.py`
+
 ## Concept description
 
 Transform your questions into concrete answers with our intelligent APIs!
@@ -19,55 +26,27 @@ the relevant SQL, API, GraphQL or other queries.
 The demo is using [Harmonize api](https://console.harmonic.ai/docs/api-reference/fetch) 
 as a dataset example.
 
-## Boot project
-1. `python -m venv .`
-2. `pip install -r requirements.txt`
-3. `source ./bin/activate`
-4. Add your **Harmonic** and **OpenAI** keys to the `.env` file
-5. Launch the project with `streamlit run interface.py`
-
 ---
 
-### Demo explanaiton
+### Demo explanation
 
-We created a mock of how the backend will work, the file is `happy.py`.
+We created a mock of how the backend will work, the file is `main.py`.
 We perform a query search for competitors of a specified domain using various client APIs.
 
-- **Description**: The main function processes user input to find similar companies for a given comapny. It retrieves company information, finds similar sites, and evaluates them using a vector search engine. The code is further documented with TODOs.
+The main function processes user input to find similar companies for a given comapny. It retrieves company information, finds similar sites, and evaluates them using a vector search engine.
+
 1. **Domain Extraction**: Uses a regular expression to extract the domain from the user input.
-    - TODO: We will replace this with a real (and modular) extractor
 2. **Client Initialization**: Initializes the `HarmonicClient` to fetch company information based on the domain.
-    - TODO: make this modular with the Executors, and configurable apis
 3. **API Calls**:
     - Retrieves company info using Harmonic API
     - Fetches similar sites using Harmonic API
     - Gathers detailed information for similar companies using Harmonic API
-4. **Vector Search**: Initializes `OpenAIClient` and constructs a system prompt for the vector search.
-    - TODO: Considering migrating this to a real vector search
-5. **Data Processing**:
-    - Filters relevant fields from the company data.
-    - Queries the OpenAI model to get accuracy ratings for each company.
-
-### BossExecutor
+4. **Validation**: Initializes `OpenAIClient` and validated the results from API calls with LLM.
 
 ### Boss Executor
 
 #### Overview
 The `BossExecutor` class orchestrates the execution of tasks using various executors, such as SQL and API calls. It integrates with the `HarmonicClient` and `OpenAIClient` to generate and execute steps based on user queries and dependencies. This class is particularly useful for handling complex workflows that involve stepwise execution with dependencies.
-
----
-
-#### Imports
-- **`json`**: For handling JSON data.
-- **`SqlExecutor`**: A custom executor for SQL operations.
-- **`HarmonicClient`**: A client for interacting with the Harmonic API.
-- **`OpenAIClient`**: A client for interacting with OpenAI's API.
-
----
-
-#### Constants
-- **`file_path`**: Path to the file containing the Harmonic API documentation.
-- **`harmonic_api_doc`**: Content of the Harmonic API documentation read from the specified file.
 
 ---
 
