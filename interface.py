@@ -21,7 +21,7 @@ st.markdown("""
 # Card for features
 with st.container():
     st.markdown("""
-        <div style="border: 1px solid #1f77b4; border-radius: 10px; padding: 15px; background-color: #f9f9f9; color: #000000;">
+        <div style="border: 1px solid #1f77b4; border-radius: 10px; padding: 15px; background-color: #f9f9f9; color: #000000; margin-bottom: 20px;">
             <h4 style="font-size: 18px;">Features:</h4>
             <ul style="font-size: 14px;">
                 <li><strong>Simplify access to complex data:</strong> Speak in natural language, and we handle the rest.</li>
