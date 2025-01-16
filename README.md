@@ -33,12 +33,7 @@ as a dataset example.
 We created a mock of how the backend will work, the file is `happy.py`.
 We perform a query search for competitors of a specified domain using various client APIs.
 
-- **Description**: The main asynchronous function that processes user input to find competitors for a given domain. It retrieves company information, finds similar sites, and evaluates them using a vector search engine.
-- **Parameters**:
-  - `user_input` (str): A string containing the user query, defaulting to "Get me the competitors of motionsociety.com".
-- **Returns**: A dictionary containing a list of similar companies with their details and accuracy ratings.
-
-#### Key Steps:
+- **Description**: The main function processes user input to find similar companies for a given comapny. It retrieves company information, finds similar sites, and evaluates them using a vector search engine. The code is further documented with TODOs.
 1. **Domain Extraction**: Uses a regular expression to extract the domain from the user input.
     - TODO: We will replace this with a real (and modular) extractor
 2. **Client Initialization**: Initializes the `HarmonicClient` to fetch company information based on the domain.
