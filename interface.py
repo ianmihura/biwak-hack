@@ -1,5 +1,4 @@
 import streamlit as st
-from backend import start_backend
 import asyncio
 import time
 from happy import main as backend
