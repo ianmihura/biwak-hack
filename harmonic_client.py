@@ -1,10 +1,9 @@
-import asyncio
 import json
+import os
 from typing import Optional
 
 import aiohttp
 from dotenv import load_dotenv
-import os
 
 load_dotenv()
 
@@ -20,11 +19,6 @@ class HarmonicClient:
         method = instructions.get("method")
         url = instructions.get("url")
         body = instructions.get("body")
-
-        # method = "POST"
-        # # ID IS A PROBLEM, becuase LLM query generator needs to produce that
-        # url = f"https://api.harmonic.ai/search/similar_companies/{id}?size=20"
-        # body = ""
         headers = {'apikey': self.api_key}
 
         async with aiohttp.ClientSession() as session:

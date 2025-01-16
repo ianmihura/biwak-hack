@@ -28,16 +28,19 @@ class BossExecutor:
         for step in steps:
             print(f"step {step['step_number']} being executed: {step['step_description']}")
 
+            # This allows us to store results from previous steps, because some steps might depend on the results of previous steps
             results_from_dependency_steps = []
             if len(step["dependencies"]) > 0:
                 results_from_dependency_steps = [steps_aggregated_res.get(pre) for pre in step["dependencies"]]
 
+            # This handles any generic tasks that do not require API calls
             if step["rest_api_method"] == "N/A":
                 res = await self.generic_task(step["step_description"], results_from_dependency_steps or [], flow_orchestrator)
                 steps_aggregated_res[step["step_number"]] = res
                 continue
 
-            else: # this means we are generating API calls
+            # This handles any API calls
+            else:
                 api_calls = await self.api_generator(step["step_description"], step["pre_condition"],
                                                      results_from_dependency_steps or [], query_generator)
             if api_calls.startswith("Error!!!"):
