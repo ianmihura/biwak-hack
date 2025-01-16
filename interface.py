@@ -11,6 +11,7 @@ def humanize(s: str) -> str:
     else:
         return ""
 
+st.set_page_config(layout="wide")
 # Application title
 st.markdown(""" 
     <h1 style="color: #1f77b4;">TenX</h1> 
@@ -53,12 +54,12 @@ def display_competitors(competitors):
     # Display the table with the new header
     st.markdown("""
         <style>
-            .description { font-size: 20px; }
+            td {  min-width: 300px; }
             .table-container { width: 100%; overflow-x: auto; }
             table { width: 100%; }
         </style>
     """, unsafe_allow_html=True)
-    st.markdown('<div class="table-container">', unsafe_allow_html=True)  # Add a container for the table
+    st.markdown('<div class="table-container ">', unsafe_allow_html=True)  # Add a container for the table
     st.table(table_data)
     st.markdown('</div>', unsafe_allow_html=True)  # Close the container
 
