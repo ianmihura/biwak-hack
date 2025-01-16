@@ -3,6 +3,7 @@
 # tags[..].display_value || tags_v2[..].display_value
 # funding
 # external_description
+import asyncio
 import os
 
 from executors.BossExecutor import BossExecutor
@@ -19,11 +20,20 @@ from openai_client import OpenAIClient
 
 async def start_backend(question: str) -> dict:
     # This is a mock question
-    question = "Find competitors for company Career26.com"
+    question = "Find competitors for company with id of 10327314" # Perplexity
+
+    openAI_question_asker = OpenAIClient()
+    openAI_code_writer = OpenAIClient()
+    harmonic_client = HarmonicClient()
+
     boss_executor = BossExecutor()
-    executions = boss_executor.generate_executions(question)
-    final_result = boss_executor.execute_steps_with_chaining(executions)
-    return final_result
+    results = await boss_executor.smart_generate_executions(question, openAI_question_asker, openAI_code_writer, harmonic_client)
+    if results:
+        companies = [{"name": res.get("name"), "description": res.get("description")} for res in results]
+        print("companies", companies)
+    # executions = boss_executor.generate_executions(question)
+    # final_result = await boss_executor.execute_steps_with_chaining(executions)
+    # return final_result
 
 def get_company_info(company_domain: str) -> str:
     pass
@@ -74,3 +84,10 @@ def validate_db(company_info: dict, db: dict) -> bool:
     # HARD
     # filter with company_info.filters
     return True
+
+
+if __name__ == "__main__":
+    async def main():
+        backend_data = await start_backend("")  # Pass company_name as an argument
+
+    asyncio.run(main())
