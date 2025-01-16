@@ -5,6 +5,14 @@ import random
 from backend import start_backend
 from happy import main as backend
 
+
+def humanize(s: str) -> str:
+    if len(s):
+        return s[0].upper() + s[1:]
+    else:
+        return ""
+
+
 # Application title
 st.markdown("""
     <h1 style="color: #1f77b4;">TenX</h1> 
@@ -49,9 +57,3 @@ if st.button("Analyze Competition", key="analyze"):
             st.warning("Unexpected data format received from the backend.")
     else:
         st.warning("Please enter a company name.")
-
-def humanize(s: str) -> str:
-    if len(s):
-        return s[0].upper() + s[1:]
-    else:
-        return ""
