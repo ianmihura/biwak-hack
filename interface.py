@@ -21,7 +21,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Card for features
-with st.expander("How does it work?", expanded=True):
+with st.expander("How does it work?", expanded=False):
     st.markdown("""
         <div style="border: 1px solid #1f77b4; border-radius: 10px; padding: 15px; background-color: #f9f9f9; color: #000000; margin-bottom: 20px;">
             <h4 style="font-size: 18px;">Features:</h4>
@@ -101,4 +101,7 @@ if st.session_state.validate:
         display_competitors(backend_data)
 
     else:
-        st.session_state.domain_info_desc = st.text_area("Any feedback on the information provided", value=st.session_state.domain_info["description"])
+        st.session_state.domain_info_desc = st.text_area(
+            "Any feedback on our understanding of your question",
+            value="You want us to find competitors of " + st.session_state.domain_info["name"] + ". Company descripiton is: " + st.session_state.domain_info["description"]
+        )
