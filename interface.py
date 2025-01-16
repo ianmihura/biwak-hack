@@ -1,7 +1,8 @@
 import streamlit as st
 import asyncio
 import time
-from main import main as backend
+from main import execute_queries, main as backend, validate_response
+from main import enrich_user_query
 
 
 def humanize(s: str) -> str:
@@ -63,38 +64,37 @@ def display_competitors(competitors):
     st.markdown('</div>', unsafe_allow_html=True)  # Close the container
 
 
+if "validate" not in st.session_state:
+    st.session_state.validate = False
+if "domain_info" not in st.session_state:
+    st.session_state.domain_info = {}
 
-# Button to submit the question
-if st.button("Submit Question", key="submit"):
-    if question:
-        st.write(f"**TenX is processing your question...**")
+button_placeholder = st.empty()
+status_placeholder = st.empty()
 
-        # Simulating the thinking process
-        time.sleep(2)
+# Get me the competitors of motionsociety.com
 
-        st.write("**TenX is querying the APIs...**")
+if st.button("Submit query", disabled=st.session_state.validate):
+    status_placeholder.write(f"**TenX is processing your question...**")
+    st.session_state.domain_info = asyncio.run(enrich_user_query(question))
+    st.session_state.validate = True
 
-        # Simulate querying Harmonic with a delay
-        time.sleep(2)
+if st.session_state.validate:
+    status_placeholder.write("")
 
-        st.write("**TenX is looking for competitors...**")
+    if button_placeholder.button("Validate"):
+        domain_info = st.session_state.domain_info
+        domain_info["description"] = st.session_state.domain_info_desc
 
-        # Simulate the response return from Harmonic with a delay
-        time.sleep(2)
+        status_placeholder.write(f"**TenX is querying the APIs...**")
+        response = asyncio.run(execute_queries(question + ". " + str(domain_info), domain_info["id"]))
+        status_placeholder.write("**TenX is looking for competitors...**")
 
-        st.write("**TenX is answering your question...**")
+        backend_data = validate_response(question + ". " + str(domain_info), response)
+        status_placeholder.write("**TenX is answering your question...**")
 
-        # Simulate the validation process with a delay
-        time.sleep(2)
+        status_placeholder.success("Competitors found!")
+        display_competitors(backend_data)
 
-        # Call start_backend with the company_name
-        backend_data= asyncio.run(backend(question)) # Pass company_name as an argument
-
-        if isinstance(backend_data, list):  # Check if backend_data is a list
-            st.success("Competitors found!")
-            display_competitors(backend_data)  # Use the backend data directly
-
-        else:
-            st.warning("Unexpected data format received from the backend.")
     else:
-        st.warning("Please enter a question.")
+        st.session_state.domain_info_desc = st.text_area("Validate the company description", value=st.session_state.domain_info["description"])
