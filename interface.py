@@ -90,18 +90,19 @@ if st.session_state.validate:
 
         status_placeholder.write(f"**TenX is querying the APIs...**")
         response = asyncio.run(execute_queries(question + ". " + str(domain_info), domain_info["id"]))
-        status_placeholder.write("**TenX is looking for competitors...**")
+        status_placeholder.write("**TenX is looking for competitors...**")  # TODO modularize
 
         time.sleep(2)
         backend_data = validate_response(question + ". " + str(domain_info), response)
-        status_placeholder.write("**TenX is answering your question...**")
+        status_placeholder.write("**TenX is validating output...**")
 
         time.sleep(2)
         status_placeholder.success("Competitors found!")
         display_competitors(backend_data)
 
     else:
+        # TODO construct question understanding with LLM
         st.session_state.domain_info_desc = st.text_area(
             "Any feedback on our understanding of your question",
-            value="You want us to find competitors of " + st.session_state.domain_info["name"] + ". Company descripiton is: " + st.session_state.domain_info["description"]
+            value="You want us to find competitors of " + st.session_state.domain_info["name"] + ". Company description is: " + st.session_state.domain_info["description"]
         )
