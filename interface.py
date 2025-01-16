@@ -74,16 +74,16 @@ button_placeholder = st.empty()
 status_placeholder = st.empty()
 
 # Get me the competitors of motionsociety.com
-
-if st.button("Submit query", disabled=st.session_state.validate):
-    status_placeholder.write(f"**TenX is processing your question...**")
-    st.session_state.domain_info = asyncio.run(enrich_user_query(question))
-    st.session_state.validate = True
+if not st.session_state.validate:
+    if st.button("Submit query"):
+        status_placeholder.write(f"**TenX is processing your question...**")
+        st.session_state.domain_info = asyncio.run(enrich_user_query(question))
+        st.session_state.validate = True
 
 if st.session_state.validate:
     status_placeholder.write("")
 
-    if button_placeholder.button("Validate"):
+    if st.button("Validate"):
         domain_info = st.session_state.domain_info
         domain_info["description"] = st.session_state.domain_info_desc
 
@@ -91,11 +91,13 @@ if st.session_state.validate:
         response = asyncio.run(execute_queries(question + ". " + str(domain_info), domain_info["id"]))
         status_placeholder.write("**TenX is looking for competitors...**")
 
+        time.sleep(2)
         backend_data = validate_response(question + ". " + str(domain_info), response)
         status_placeholder.write("**TenX is answering your question...**")
 
+        time.sleep(2)
         status_placeholder.success("Competitors found!")
         display_competitors(backend_data)
 
     else:
-        st.session_state.domain_info_desc = st.text_area("Validate the company description", value=st.session_state.domain_info["description"])
+        st.session_state.domain_info_desc = st.text_area("Any feedback on the information provided", value=st.session_state.domain_info["description"])
