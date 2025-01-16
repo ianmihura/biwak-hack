@@ -19,6 +19,11 @@ from openai_client import OpenAIClient
 
 
 async def start_backend(question: str) -> dict:
+    """
+    Using this file to test the Executors. 
+    
+    Warning: it does not share the same interface as the frontend!
+    """
     # This is a mock question
     question = "Find competitors for company with id of 10327314" # Perplexity
 
