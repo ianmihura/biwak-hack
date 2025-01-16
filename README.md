@@ -50,11 +50,124 @@ We perform a query search for competitors of a specified domain using various cl
 
 ### BossExecutor
 
-*TODO document the executors*
+### Boss Executor
+
+#### Overview
+The `BossExecutor` class orchestrates the execution of tasks using various executors, such as SQL and API calls. It integrates with the `HarmonicClient` and `OpenAIClient` to generate and execute steps based on user queries and dependencies. This class is particularly useful for handling complex workflows that involve stepwise execution with dependencies.
+
+---
+
+#### Imports
+- **`json`**: For handling JSON data.
+- **`SqlExecutor`**: A custom executor for SQL operations.
+- **`HarmonicClient`**: A client for interacting with the Harmonic API.
+- **`OpenAIClient`**: A client for interacting with OpenAI's API.
+
+---
+
+#### Constants
+- **`file_path`**: Path to the file containing the Harmonic API documentation.
+- **`harmonic_api_doc`**: Content of the Harmonic API documentation read from the specified file.
+
+---
+
+#### Class: `BossExecutor`
+
+##### Methods
+
+###### `__init__(self)`
+Initializes the `BossExecutor` instance and creates instances of:
+- `SqlExecutor` for executing SQL queries.
+- `HarmonicClient` for interacting with the Harmonic API.
+
+---
+
+###### `async execute_step_with_input(self, executor, query, dependencies)`
+Executes a step using the specified executor (e.g., SQL or API call). If dependencies are provided, they override the query input.
+
+- **Parameters:**
+  - `executor` (*str*): Type of executor to use (e.g., `SqlExecutor`, `HarmonicClient`).
+  - `query` (*str* | *dict*): The query to execute. For `HarmonicClient`, this should be a dictionary with keys: `method`, `url`, and `body`.
+  - `dependencies` (*str* | *list*): Optional dependencies required for execution.
+- **Returns:**
+  - Result of the executed query or task.
+- **Raises:**
+  - `ValueError`: If the executor type is unknown.
+
+---
+
+###### `async smart_generate_executions(self, question: str, flow_orchestrator: OpenAIClient, query_generator: OpenAIClient, harmonic_client: HarmonicClient)`
+Generates and executes a sequence of steps based on a user query. This method manages dependencies, orchestrates execution, and aggregates results.
+
+- **Parameters:**
+  - `question` (*str*): The query or problem statement to resolve.
+  - `flow_orchestrator` (*OpenAIClient*): Client for orchestrating the logical flow.
+  - `query_generator` (*OpenAIClient*): Client for generating specific queries or API calls.
+  - `harmonic_client` (*HarmonicClient*): Client for executing API calls.
+- **Returns:**
+  - Result of the final step executed.
+- **Notes:**
+  - Results from previous steps are aggregated and used as dependencies for subsequent steps.
+
+---
+
+###### `async flow_orchestrator(self, question: str, client: OpenAIClient)`
+Generates logical steps to answer a given question using the Harmonic API documentation.
+
+- **Parameters:**
+  - `question` (*str*): The question to answer.
+  - `client` (*OpenAIClient*): Client for interacting with OpenAI's API.
+- **Returns:**
+  - Raw result from the `query_chat` method of `OpenAIClient`.
+  - Expected format: Array of dictionaries containing step details:
+    - `step_number` (*int*): Step index.
+    - `step_description` (*str*): Description of the step.
+    - `rest_api_method` (*str*): HTTP method (e.g., POST, GET, or N/A).
+    - `url` (*str*): API endpoint.
+    - `pre_condition` (*str*): Preconditions for executing the step.
+    - `dependencies` (*list[int]*): List of dependent step numbers.
+
+---
+
+###### `async api_generator(self, task: str, pre_info: str, dependency_data: list[int], client: OpenAIClient)`
+Generates API call details based on a task, precondition, and dependency data.
+
+- **Parameters:**
+  - `task` (*str*): Description of the task.
+  - `pre_info` (*str*): Additional context or preconditions.
+  - `dependency_data` (*list[int]*): Data from dependencies.
+  - `client` (*OpenAIClient*): Client for API call generation.
+- **Returns:**
+  - Dictionary containing API call details:
+    - `url` (*str*): API endpoint.
+    - `method` (*str*): HTTP method (POST or GET).
+    - `body` (*str*): Constructed request body.
+  - If generation fails, returns a string starting with `Error!!!`.
+
+---
+
+###### `async generic_task(self, task: str, dependency_data: list[int], client: OpenAIClient)`
+Executes a generic task based on the provided task description and dependency data.
+
+- **Parameters:**
+  - `task` (*str*): Task description.
+  - `dependency_data` (*list[int]*): Data from dependencies.
+  - `client` (*OpenAIClient*): Client for task execution.
+- **Returns:**
+  - Result of the executed task.
+
+---
+
+#### Notes
+- **Enhancements:**
+  - LLM validator can be added to ensure API calls are well-formed. 
+  - The orchestrator should retrieve results from the previously executed step to dynamically update and execute subsequent steps.
+
+
 
 ## Modular APIs
 
-*We only support Harmonize API for now.*
+*We only support Harmonic API for now.*
 
 To integrate your own data provider APIs, you must:
 1. Include the secrets to the .env file
