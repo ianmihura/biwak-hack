@@ -1,0 +1,67 @@
+API Name: Get similar companies
+Function: Pass in a company ID, and get back a list of similar companies. You can use either the int ID, or the full URN.
+ID example: GET https://api.harmonic.ai/search/similar_companies/123456
+URN example: GET https://api.harmonic.ai/search/similar_companies/urn:harmonic:company:123456
+Query Params: size:integer
+Limitations: Size has a limit of 1000 companies.
+Rest example: GET https://api.harmonic.ai/search/similar_companies/<id or urn>
+Response: {
+  "count": 3,
+  "results": [
+    "urn:harmonic:company:123456",
+    "urn:harmonic:company:123457",
+    "urn:harmonic:company:123458"
+  ]
+}
+
+
+API Name: Batch get companies by ID
+Function: Pass in a list of company IDs or URNs, and get back a full picture of those companies.
+Note:
+If a company ID is -1, that we means we don't yet have a canonical company record for that company.
+The API will not return data for these companies.
+Note: The data in latest company snapshot might not match the current state of the company for up to 14 days.
+This is because we take snapshot of a company every 14 days but we might update the live state of company before that.
+
+Body Params: {ids: array[integer], urns: array[string]}
+Limitations.
+Endpoint has a limit of 500 companies.
+
+Rest example: POST https://api.harmonic.ai/companies/batchGet
+Response:
+[
+  {
+      "entity_urn": "urn:harmonic:company:123456",
+      "id": 123456,
+      "initialized_date": "2020-10-27T08:07:20.940106",
+      "website": {...},
+      "customer_type": "B2C",
+      "logo_url": "string",
+      "name": "string",
+      "legal_name": "string",
+      "description": "string",
+      "external_description": "string",
+      "founding_date": {...},
+      "headcount": 0,
+      "ownership_status": "PRIVATE",
+      "company_type": "UNKNOWN",
+      "stage": "SEED",
+      "location": {...},
+      "contact": {...},
+      "socials": {...},
+      "funding": {...},
+      "people": [...], // returns first 60. See "Pagination > Nested People"
+      "tags": [...],
+      "tags_v2": [...],
+      "funding_attribute_null_status": "EXISTS_BUT_UNDISCLOSED",
+      "highlights": [...],
+      "snapshots": [...],
+      "traction_metrics": [...],
+      "website_domain_aliases": [...],
+      "name_aliases":[...],
+      "employee_highlights": [...],
+      "funding_rounds": [...],
+      "investor_urn": "urn:harmonic:investor:203005",
+      "related_companies": {...}
+  },
+]

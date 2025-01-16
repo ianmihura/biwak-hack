@@ -73,7 +73,7 @@ async def validate_db_with_openai(company_info: str, db: list) -> dict:
         print(res)
         entry["accuracy"] = res
 
-    return db
+    return res
 
 #
 # if __name__ == "__main__":
