@@ -8,7 +8,7 @@ import os
 
 load_dotenv()
 
-COMPANY_FIELDS = ["name", "description", "headcount", "logo_url", "customer_type", "stage", "id", "tags_v2", "funding"]
+COMPANY_FIELDS = ["name", "description", "headcount", "customer_type", "stage", "id", "tags_v2", "funding"]
 
 class HarmonicClient:
     def __init__(self):
