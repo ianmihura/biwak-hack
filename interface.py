@@ -77,6 +77,7 @@ status_placeholder = st.empty()
 if not st.session_state.validate:
     if st.button("Submit query"):
         status_placeholder.write(f"**TenX is processing your question...**")
+        time.sleep(2)
         st.session_state.domain_info = asyncio.run(enrich_user_query(question))
         st.session_state.validate = True
 
