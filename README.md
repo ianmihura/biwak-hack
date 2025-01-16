@@ -60,7 +60,8 @@ The main function processes user input to find similar companies for a given com
 The `BossExecutor` class orchestrates the execution of tasks using various executors, such as SQL and API calls. For now we are only implementing `HarmonicClient` and `OpenAIClient` to generate and execute steps based on user queries. This class is particularly useful for handling workflows that involve stepwise execution.
 
 #### Improvements
-We still have to integrate more API clients, and plug the Executors to the frontend
+- We still have to integrate more API clients, and plug the Executors to the frontend
+- Integrate the accuracy measure into the Executor
 
 ---
 
