@@ -14,20 +14,10 @@ class BossExecutor:
         self.sql_client = SqlExecutor()
         self.harmonic_client = HarmonicClient()
 
-    async def execute_step_with_input(self, executor, query, dependencies):
-        if dependencies:
-            query = dependencies
-        if executor == "SqlExecutor":
-            return await self.sql_client.execute(query)
-        elif executor == "HarmonicClient":
-            # query is a dictionary, with keys: method, url, body
-            return await self.harmonic_client.execute(query)
-        else:
-            raise ValueError(f"Unknown executor: {executor}")
-
     async def smart_generate_executions(self, question: str,
                                         flow_orchestrator: OpenAIClient, query_generator: OpenAIClient,
                                         harmonic_client: HarmonicClient):
+        print("Question I am trying to answer: ", question)
         steps = await self.flow_orchestrator(question, flow_orchestrator)
         if steps:
             steps = json.loads(steps)

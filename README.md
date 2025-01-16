@@ -11,6 +11,13 @@
 4. Add your **Harmonic** and **OpenAI** keys to the `.env` file
 5. Launch the project with `streamlit run interface.py`
 
+### Main part of the code to look at:
+- UI entry: Interface.py
+- (The innovation) Use LLM to generate steps and queries from the question: `backend.py` (entry point) + `BossExecutor.py` (main logic)
+This is not integrated with the UI yet, but you can run it with `python backend.py`
+
+#### Class: `BossExecutor`
+
 ## Concept description
 
 Transform your questions into concrete answers with our intelligent APIs!
@@ -63,9 +70,7 @@ The `BossExecutor` class orchestrates the execution of tasks using various execu
 - We still have to integrate more API clients, and plug the Executors to the frontend
 - Integrate the accuracy measure into the Executor
 
----
-
-#### Class: `BossExecutor`
+--_
 
 ##### Methods
 
