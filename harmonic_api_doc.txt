@@ -23,7 +23,7 @@ The API will not return data for these companies.
 Note: The data in latest company snapshot might not match the current state of the company for up to 14 days.
 This is because we take snapshot of a company every 14 days but we might update the live state of company before that.
 
-Body Params: {ids: array[integer], urns: array[string]}
+Body Params: { urns: array[string]}
 Limitations.
 Endpoint has a limit of 500 companies.
 
