@@ -8,7 +8,7 @@ import os
 
 load_dotenv()
 
-COMPANY_FIELDS = ["name", "description", "headcount", "logo_url", "customer_type", "stage", "id", "tags_v2", "funding"]
+COMPANY_FIELDS = ["name", "description", "headcount", "customer_type", "stage", "id", "tags_v2", "funding"]
 
 class HarmonicClient:
     def __init__(self):
@@ -48,9 +48,9 @@ class HarmonicClient:
                 print(f"Error running query {url} with {method} method: {e}")
                 return None
 
-    async def get_similar_sites(id, api_key, size=10):
+    async def get_similar_sites(self, id, size=10):
         url = f"https://api.harmonic.ai/search/similar_companies/{id}?size={size}"
-        headers = {'apikey': api_key}
+        headers = {'apikey': self.api_key}
 
         async with aiohttp.ClientSession() as session:
             try:
@@ -95,21 +95,19 @@ class HarmonicClient:
                 return None
 
 
-async def get_companies_info_by_ids(ids, api_key):
-    url = "https://api.harmonic.ai/companies/batchGet"
-    body = {
-        "ids": ids
-    }
-    headers = {'apikey': api_key}
+    async def get_companies_info_by_ids(self, ids):
+        url = "https://api.harmonic.ai/companies/batchGet"
+        body = {"ids": ids}
+        headers = {'apikey': self.api_key}
 
-    async with aiohttp.ClientSession() as session:
-        try:
-            async with session.post(url, json=body, headers=headers) as response:
-                response.raise_for_status()
-                return await response.json()
-        except aiohttp.ClientError as e:
-            print(f"Error getting company data: {e}")
-            return None
+        async with aiohttp.ClientSession() as session:
+            try:
+                async with session.post(url, json=body, headers=headers) as response:
+                    response.raise_for_status()
+                    return await response.json()
+            except aiohttp.ClientError as e:
+                print(f"Error getting company data: {e}")
+                return None
 
 #
 # if __name__ == "__main__":

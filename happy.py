@@ -10,11 +10,10 @@ from functools import reduce
 # description = "Motion Society helps content creators reaching their full potential and develops their brands in all social medias. Motion Society currently brings together a diversified and strong community of creators spanning from a lot of different worlds. Our team is fully dedicated to make them blossom on Facebook, Instagram, Snapchat, TikTok, Pinterest and YouTube."
 
 
-async def main() -> dict:
+async def main(user_input = "Get me the competitors of motionsociety.com") -> dict:
     # TODO: make sure we have a domain in the search
-    user_input = "Get me the competitors of motionsociety.com"
     domain = re.findall(r'\b\w+\.\w+\b', user_input)[0]
-    
+
     # TODO: include more clients -> allow the user to implement their own clients
     client = HarmonicClient()
 
@@ -51,7 +50,7 @@ async def main() -> dict:
             entry["accuracy"] = res
         else:
             entry["accuracy"] = res
-    
+
     print(similar_companies)
     return similar_companies
 

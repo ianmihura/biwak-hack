@@ -1,6 +1,15 @@
 import streamlit as st
 from backend import start_backend
+import asyncio
 import time
+from happy import main as backend
+
+
+def humanize(s: str) -> str:
+    if len(s):
+        return s[0].upper() + s[1:]
+    else:
+        return ""
 
 # Application title
 st.markdown(""" 
@@ -20,19 +29,15 @@ def display_competitors(competitors):
     # Prepare data for the table
     table_data = []
     for competitor in competitors:
-        table_data.append({
-            "Name": competitor['name'],
-            "Accuracy": competitor['accuracy'],  # Corrected spelling from 'accouracy'
-            "Website": competitor['website'],
-            "Description": competitor['description'],
-            "Headcount": competitor['headcount']
-        })
 
+        data = {}
+        for c in competitor.keys():
+            data[humanize(c)] = competitor[c]
+        table_data.append(data)
+    
     # Sort the table data by accuracy in descending order
-    table_data.sort(key=lambda x: x['Accuracy'], reverse=True)
+    # table_data.sort(key=lambda x: x['accuracy'], reverse=True)
 
-    # Display the data as a table
-    st.table(table_data)  # Use st.table to display the data in a table format
 
 
 # Button to submit the question
@@ -58,8 +63,8 @@ if st.button("Submit Question", key="submit"):
         # Simulate the validation process with a delay
         time.sleep(2)
 
-        # Call start_backend with the question
-        backend_data = start_backend(question)  # Pass question as an argument
+        # Call start_backend with the company_name
+        backend_data= asyncio.run(backend(question)) # Pass company_name as an argument
 
         if isinstance(backend_data, list):  # Check if backend_data is a list
             st.success("Competitors found!")
