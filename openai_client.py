@@ -1,5 +1,6 @@
-import asyncio
+from functools import reduce
 import openai
+import api_config
 
 from dotenv import load_dotenv
 import os
@@ -13,7 +14,7 @@ class OpenAIClient:
         openai.api_key = OPENAI_API_KEY
         self.model = model
 
-    def query_chat(self, messages: list, max_tokens: int = 150, temperature: float = 0.7):
+    def query_chat(self, messages: list, max_tokens: int = 1500, temperature: float = 0.7):
         try:
             completion = openai.ChatCompletion.create(
                 model=self.model,
@@ -74,17 +75,17 @@ async def validate_db_with_openai(company_info: str, db: list) -> dict:
 
     return db
 
-
-if __name__ == "__main__":
-
-    async def main():
-
-        company_name = "Motion Society"
-        domain = "motionsociety.com"
-        description = "Motion Society helps content creators reaching their full potential and develops their brands in all social medias. Motion Society currently brings together a diversified and strong community of creators spanning from a lot of different worlds. Our team is fully dedicated to make them blossom on Facebook, Instagram, Snapchat, TikTok, Pinterest and YouTube."
-        key_words = await get_company_key_words(company_name, domain, description)
-
-        # Query the client
-        print(key_words)
-
-    asyncio.run(main())
+#
+# if __name__ == "__main__":
+#
+#     async def main():
+#
+#         company_name = "Motion Society"
+#         domain = "motionsociety.com"
+#         description = "Motion Society helps content creators reaching their full potential and develops their brands in all social medias. Motion Society currently brings together a diversified and strong community of creators spanning from a lot of different worlds. Our team is fully dedicated to make them blossom on Facebook, Instagram, Snapchat, TikTok, Pinterest and YouTube."
+#         key_words = await get_company_key_words(company_name, domain, description)
+#
+#         # Query the client
+#         print(key_words)
+#
+#     asyncio.run(main())

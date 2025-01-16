@@ -6,3 +6,4 @@
 /include
 /__pycache__
 .env
+*.pyc
