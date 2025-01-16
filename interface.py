@@ -15,11 +15,11 @@ st.set_page_config(layout="wide")
 st.markdown(""" 
     <h1 style="color: #1f77b4;">TenX</h1> 
     <h3>The only AI productivity tool needed for VCs</h3>
-    <p style="font-size: 25px;">Transform your questions into concrete answers with our intelligent APIs.</p>
+    <p style="font-size: 25px;">AI-copilot to transform your questions into concrete answers.</p>
 """, unsafe_allow_html=True)
 
 # Card for features
-with st.container():
+with st.expander("How does it work?", expanded=True):
     st.markdown("""
         <div style="border: 1px solid #1f77b4; border-radius: 10px; padding: 15px; background-color: #f9f9f9; color: #000000; margin-bottom: 20px;">
             <h4 style="font-size: 18px;">Features:</h4>
@@ -33,7 +33,7 @@ with st.container():
     """, unsafe_allow_html=True)
 
 
-question = st.text_input("Ask a question:", placeholder="E.g., Who are Google's competitors?")
+question = st.text_input("Ask a question:", placeholder="E.g., Who are Google.com competitors? - What is the typical headcount of content creators companies?")
 
 
 def display_competitors(competitors):
@@ -67,22 +67,22 @@ def display_competitors(competitors):
 # Button to submit the question
 if st.button("Submit Question", key="submit"):
     if question:
-        st.write(f"**TenX is thinking for query...**")
+        st.write(f"**TenX is processing your question...**")
 
         # Simulating the thinking process
         time.sleep(2)
 
-        st.write("**Now querying Harmonic...**")
+        st.write("**TenX is querying the APIs...**")
 
         # Simulate querying Harmonic with a delay
         time.sleep(2)
 
-        st.write("**Harmonic return to company...**")
+        st.write("**TenX is looking for competitors...**")
 
         # Simulate the response return from Harmonic with a delay
         time.sleep(2)
 
-        st.write("**TenX is validating results...**")
+        st.write("**TenX is answering your question...**")
 
         # Simulate the validation process with a delay
         time.sleep(2)
